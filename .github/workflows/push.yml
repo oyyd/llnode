@@ -26,7 +26,7 @@ jobs:
         # os: [ubuntu-latest, macos-latest]
         # Temporarily disable MacOS until
         # https://github.com/nodejs/node/issues/32981 is fixed
-        os: [ubuntu-latest]
+        os: [ubuntu-18.04]
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node.version }} ${{ matrix.node.mirror }}
@@ -35,7 +35,7 @@ jobs:
           node-version: ${{ matrix.node.version }}
           node-mirror: ${{ matrix.node.mirror }}
       - name: install dependencies Linux
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-18.04'
         run: |
           sudo apt-get -qq update
           sudo apt-get install lldb-3.9 python-lldb-3.9 liblldb-3.9-dev lcov gdb -y
@@ -50,7 +50,7 @@ jobs:
         if: matrix.node.version == '15.x'
         continue-on-error: true
       - name: prepare coverage
-        if: matrix.os == 'ubuntu-latest' && matrix.node.version != '15.x'
+        if: matrix.os == 'ubuntu-18.04' && matrix.node.version != '15.x'
         run: |
           npm run coverage
           cat ./coverage-js.info > ./coverage.info
@@ -60,7 +60,7 @@ jobs:
         with:
           file: ./coverage.info
   linter:
-    runs-on: [ubuntu-latest]
+    runs-on: [ubuntu-18.04]
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js LTS
